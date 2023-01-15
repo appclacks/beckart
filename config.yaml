@@ -1,0 +1,36 @@
+
+# default variables
+variables:
+  avar: 1
+# list of actions to execute one by one
+actions:
+  - name: a1
+    http:
+      valid-status:
+        - 200
+      timeout: "5s"
+      target: localhost
+      method: GET
+      port: 9013
+      protocol: http
+      path: "/healthcheck"
+    extractor:
+      body-json:
+        foo: [0, "name"]
+        bar: [1, "valid-status"]
+
+  - name: a2
+    http:
+      valid-status:
+        - 201
+        - 200
+      target: localhost
+      timeout: "5s"
+      method: POST
+      port: 9013
+      protocol: http
+      path: "/healthcheck/dns"
+      headers:
+        content-type: "application/json"
+      body: |
+        {"name":"{{index .Variables "foo"}}-beckart","description":"dns healthcheck example","domain":"mcorbin.fr","interval":"5s","one-off": true, "timeout": "{{index .Variables "bar" 0}}s"}`
