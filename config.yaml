@@ -1,36 +1,60 @@
-
-# default variables
+---
 variables:
-  avar: 1
-# list of actions to execute one by one
-actions:
-  - name: a1
-    http:
-      valid-status:
-        - 200
-      timeout: "5s"
-      target: localhost
-      method: GET
-      port: 9013
-      protocol: http
-      path: "/healthcheck"
-    extractor:
-      body-json:
-        foo: [0, "name"]
-        bar: [1, "valid-status"]
+  new-title: "new post title"
 
-  - name: a2
+actions:
+  - name: get-post
     http:
       valid-status:
-        - 201
         - 200
-      target: localhost
       timeout: "5s"
-      method: POST
-      port: 9013
-      protocol: http
-      path: "/healthcheck/dns"
+      target: jsonplaceholder.typicode.com
+      method: GET
+      port: 443
+      protocol: https
+      path: "/posts"
+      extractors:
+        body-json:
+          post-title:
+            - 0
+            - "title"
+          post-id:
+            - 0
+            - "id"
+
+  - name: log-title
+    log:
+      message: 'title = {{ index .Variables "post-title" }}'
+
+  - name: patch-post
+    http:
+      valid-status:
+        - 200
+      timeout: "5s"
+      target: jsonplaceholder.typicode.com
+      method: PATCH
       headers:
-        content-type: "application/json"
+        content-type: "application/json; charset=UTF-8"
       body: |
-        {"name":"{{index .Variables "foo"}}-beckart","description":"dns healthcheck example","domain":"mcorbin.fr","interval":"5s","one-off": true, "timeout": "{{index .Variables "bar" 0}}s"}`
+        {"title": "{{ index .Variables "new-title"}}"}
+
+      port: 443
+      protocol: https
+      path: '/posts/{{ index .Variables "post-id"}}'
+
+  - name: delete-post
+    http:
+      valid-status:
+        - 200
+      timeout: "5s"
+      target: jsonplaceholder.typicode.com
+      method: DELETE
+      port: 443
+      protocol: https
+      path: '/posts/{{ index .Variables "post-id"}}'
+      extractors:
+        body: "delete-body"
+
+  - name: log-delete-body
+    log:
+      message: 'body = {{ index .Variables "delete-body" }}'

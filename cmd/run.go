@@ -25,7 +25,7 @@ func RunCommand() *cobra.Command {
 				fmt.Println(err.Error())
 				os.Exit(1)
 			}
-			file, err := os.ReadFile("../beckart-exo.yaml")
+			file, err := os.ReadFile(configFile)
 			if err != nil {
 				logger.Error(err.Error())
 				os.Exit(1)

@@ -48,8 +48,12 @@ func ExecuteHTTP(logger *zap.Logger, store *store.Store, transformers map[string
 	if err != nil {
 		return err
 	}
-	url := buildURL(action.HTTP)
-	req, err := http.NewRequest(action.HTTP.Method, url, body)
+	urlTemplate := buildURL(action.HTTP)
+	url, err := template.GenTemplate(store, fmt.Sprintf("%s-url", action.Name), urlTemplate)
+	if err != nil {
+		return err
+	}
+	req, err := http.NewRequest(action.HTTP.Method, url.String(), body)
 	if err != nil {
 		return fmt.Errorf("fail to initialize HTTP request: %w", err)
 	}
@@ -88,7 +92,7 @@ func ExecuteHTTP(logger *zap.Logger, store *store.Store, transformers map[string
 	defer cancel()
 	req = req.WithContext(timeoutCtx)
 
-	for _, transformerRef := range action.TransformersRef {
+	for _, transformerRef := range action.Transformers {
 		transformer, ok := transformers[transformerRef]
 		if !ok {
 			return fmt.Errorf("unknown transformer %s", transformerRef)
@@ -135,6 +139,5 @@ func ExecuteHTTP(logger *zap.Logger, store *store.Store, transformers map[string
 	if extractors.Body != "" {
 		store.Set(extractors.Body, string(responseBody))
 	}
-	logger.Info("successfully executed action", zap.String("action", action.Name))
 	return nil
 }

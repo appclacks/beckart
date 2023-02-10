@@ -27,11 +27,11 @@ type HTTPExtractors struct {
 }
 
 type Action struct {
-	Name            string     `yaml:"name"`
-	Description     string     `yaml:"description"`
-	HTTP            HTTPAction `yaml:"http"`
-	Log             LogAction  `yaml:"log"`
-	TransformersRef []string   `yaml:"transformers-ref"`
+	Name         string     `yaml:"name"`
+	Description  string     `yaml:"description"`
+	HTTP         HTTPAction `yaml:"http"`
+	Log          LogAction  `yaml:"log"`
+	Transformers []string   `yaml:"transformers"`
 }
 
 type LogAction struct {

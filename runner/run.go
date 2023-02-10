@@ -27,6 +27,7 @@ func Run(logger *zap.Logger, store *store.Store, transformers map[string]transfo
 			logger.Error(fmt.Sprintf("action failed: %s", err.Error()), zap.String("action", action.Name))
 			return err
 		}
+		logger.Info("successfully executed action", zap.String("action", action.Name))
 	}
 	logger.Info("test scenario finished successfully")
 	return nil
