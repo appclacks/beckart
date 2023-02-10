@@ -24,7 +24,7 @@ Beckart uses the [Golang template](https://pkg.go.dev/text/template) syntax. Req
 
 This is the configuration file for our example:
 
-```
+```yaml
 variables:
   new-title: "new post title"
 
@@ -88,7 +88,7 @@ actions:
 
 Run `beckart run --config config.yaml` and you should see beckart being executed successfully:
 
-```
+```json
 {"level":"info","ts":1676062923.6442242,"caller":"runner/run.go:14","msg":"starting test scenario"}
 {"level":"info","ts":1676062923.6442842,"caller":"runner/run.go:16","msg":"start executing action","action":"get-post"}
 {"level":"info","ts":1676062923.7279494,"caller":"runner/run.go:30","msg":"successfully executed action","action":"get-post"}
@@ -116,7 +116,7 @@ They're still a work in progress, only one transformer exists for now as a proof
 
 This transformer will sign the HTTP request as described in the Exoscale [API documentation)(https://openapi-v2.exoscale.com/):
 
-```
+```yaml
 transformers:
   ## transformers definitions
   exo:
