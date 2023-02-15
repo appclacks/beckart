@@ -37,7 +37,7 @@ func RunCommand() *cobra.Command {
 			}
 
 			store := store.New(config.Variables)
-			transformers, err := transformers.NewTransformers(config.Transformers)
+			transformers, err := transformers.NewTransformers(config.Transformers, store)
 			if err != nil {
 				logger.Error(err.Error())
 				os.Exit(1)
