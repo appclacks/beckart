@@ -1,6 +1,6 @@
 module github.com/appclacks/beckart
 
-go 1.19
+go 1.20
 
 require (
 	github.com/exoscale/egoscale v0.97.0
