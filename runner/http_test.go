@@ -203,15 +203,17 @@ func TestExecuteHTTP(t *testing.T) {
 					Path:     "/",
 					Body:     `{"foo": {{ json (index .Variables "complex")}}}`,
 					Extractors: config.HTTPExtractors{
-						Body: "fullbody",
+						Body:       "fullbody",
+						BodyString: "fullbodystring",
 					},
 				},
 			},
 			ExpectedBody: `{"foo": [{"a":"bcd"}]}`,
 			ExpectedVariables: map[string]any{
-				"slice":    []any{float64(1), float64(2)},
-				"intvar":   float64(1),
-				"fullbody": testBody,
+				"slice":          []any{float64(1), float64(2)},
+				"intvar":         float64(1),
+				"fullbody":       []byte(testBody),
+				"fullbodystring": testBody,
 			},
 		},
 	}

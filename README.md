@@ -9,7 +9,6 @@ Only one transformer is supported for now as a proof of concept but new ones wil
 
 ## Example
 
-
 We will in this example write a test scenario that will:
 
 - Send a GET request to `https://jsonplaceholder.typicode.com/posts`. This API returns a list of posts (you can try it by [following this link](jsonplaceholder.typicode.com/posts).

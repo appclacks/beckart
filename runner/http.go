@@ -137,7 +137,10 @@ func ExecuteHTTP(logger *zap.Logger, store *store.Store, transformers map[string
 		}
 	}
 	if extractors.Body != "" {
-		store.Set(extractors.Body, string(responseBody))
+		store.Set(extractors.Body, responseBody)
+	}
+	if extractors.BodyString != "" {
+		store.Set(extractors.BodyString, string(responseBody))
 	}
 	return nil
 }

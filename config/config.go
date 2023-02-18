@@ -21,9 +21,10 @@ type HTTPAction struct {
 }
 
 type HTTPExtractors struct {
-	Headers  map[string]string `yaml:"headers"`
-	BodyJSON map[string][]any  `yaml:"body-json"`
-	Body     string            `yaml:"body"`
+	Headers    map[string]string `yaml:"headers"`
+	BodyJSON   map[string][]any  `yaml:"body-json"`
+	Body       string            `yaml:"body"`
+	BodyString string            `yaml:"body-string"`
 }
 
 type Action struct {
