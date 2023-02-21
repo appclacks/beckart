@@ -15,4 +15,4 @@ COPY --from=build-env /app/beckart /bin/beckart
 USER 1664
 
 ENTRYPOINT ["/bin/beckart"]
-CMD ["daemon", "--config", "/beckart.yaml"]
+CMD ["--config", "/beckart.yaml"]
