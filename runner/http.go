@@ -136,6 +136,12 @@ func ExecuteHTTP(logger *zap.Logger, store *store.Store, transformers map[string
 			return err
 		}
 	}
+	if len(extractors.Cookies) > 0 {
+		err := extractCookies(store, response.Cookies(), extractors.Headers)
+		if err != nil {
+			return err
+		}
+	}
 	if extractors.Body != "" {
 		store.Set(extractors.Body, responseBody)
 	}

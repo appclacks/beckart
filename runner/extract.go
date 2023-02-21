@@ -80,3 +80,18 @@ func extractHeaders(store *store.Store, headers http.Header, extractor map[strin
 	}
 	return nil
 }
+
+func extractCookies(store *store.Store, cookies []*http.Cookie, extractor map[string]string) error {
+	// double for not needed but let's optimize later
+	for variable, cookieName := range extractor {
+		for i := range cookies {
+			cookie := cookies[i]
+			if cookie.Name == cookieName {
+				store.Set(variable, *cookie)
+				break
+			}
+		}
+		return fmt.Errorf("cookie %s not found in http response", cookieName)
+	}
+	return nil
+}
